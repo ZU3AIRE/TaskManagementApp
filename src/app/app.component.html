@@ -1,27 +1,52 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
+<div id="wrapper">
+  <!-- Sidebar -->
+  <ul
+    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    id="accordionSidebar"
+  >
+    <!-- Sidebar - Brand -->
+    <a
+      class="sidebar-brand d-flex align-items-center justify-content-center"
+      routerLink=""
+    >
+      <img src="./../assets/logo.png" height="80px" style="margin-left:80px"/>
+      <!-- <div class="sidebar-brand-text mx-3">T M S</div> -->
+    </a>
 
-      <div class="card mt-5">
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0" />
 
-        <!-- Header of card -->
-        <div class="card-header">
-          <h3 class="text-center">Login</h3>
-        </div>
+    <!-- Nav Item - Auth
+    <div class="sidebar-heading">Auth</div>
 
-        <!-- Body of card -->
-        <div class="card-body">
-            <label for="username">Username</label>
-            <input type="text" class="form-control mb-2" id="username" placeholder="Enter Username" #username>
+    <li class="nav-item active">
+      <a class="nav-link" routerLink="Login">Login</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" routerLink="Signup">Signup</a>
+    </li> -->
 
-            <label for="password">Password</label>
-            <input type="password" class="form-control mb-2" id="password" placeholder="Enter password" #password>
+    <!-- Divider -->
+    <hr class="sidebar-divider" />
 
+    <!-- Heading -->
+    <div class="sidebar-heading">Dashboard</div>
 
-            <button type="button" class="btn btn-primary btn-block"
-              (click)="submit(username.value, password.value)">Login</button>
-        </div>
-      </div>
+    <!-- Nav Item -->
+    <li class="nav-item active">
+      <a class="nav-link" routerLink="Tasks">Tasks</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" routerLink="Developers">Developers</a>
+    </li>
+  </ul>
+
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <nav
+        class="navbar navbar-expand navbar-light bg-gradient-primary  topbar mb-4 static-top shadow"
+      ></nav>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
