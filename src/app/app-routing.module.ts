@@ -4,6 +4,7 @@ import { LoginComponent } from './Auth/login/login.component';
 import { SignupComponent } from './Auth/signup/signup.component';
 import { TaskComponent } from './Dashboard/task/task.component';
 import { DeveloperComponent } from './Dashboard/developer/developer.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -19,13 +20,20 @@ const routes: Routes = [
     component: SignupComponent
   },
   {
-    path: 'Tasks',
-    component: TaskComponent
-  },
-  {
-    path: 'Developers',
-    component: DeveloperComponent
+    path: 'Home',
+    component: HomeComponent,
+    children: [
+      {
+        path: 'Tasks',
+        component: TaskComponent
+      },
+      {
+        path: 'Developers',
+        component: DeveloperComponent
+      }
+    ]
   }
+ 
 ];
 
 @NgModule({

@@ -8,6 +8,7 @@ import { LoginComponent } from './Auth/login/login.component';
 import { SignupComponent } from './Auth/signup/signup.component';
 import { TaskComponent } from './Dashboard/task/task.component';
 import { DeveloperComponent } from './Dashboard/developer/developer.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DeveloperComponent } from './Dashboard/developer/developer.component';
     LoginComponent,
     SignupComponent,
     TaskComponent,
-    DeveloperComponent
+    DeveloperComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
