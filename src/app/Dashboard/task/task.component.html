@@ -1,1 +1,57 @@
-<p>task works!</p>
+<div class="container pt-3">
+    <div class="row justify-content-end">
+        <div class="col-2 text-end">
+            <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add Task</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row gap-2">
+        <div class="col-4" *ngFor="let task of tasks">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>{{ task.title }}</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{ task.description }}
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col text-end">
+                            <button class="btn btn-danger">Delete</button> |
+                            <button class="btn btn-info" (click)="SetEditEntity(task.taskId)" >Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row gap-2">
+                <div class="col-12">
+                    <input type="text"  class="form-control" placeholder="Title..." #t>
+                </div>
+                <div class="col-12">
+                    <textarea type="text" class="form-control"  placeholder="Description..." #d></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="AddTask(t, d)">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>

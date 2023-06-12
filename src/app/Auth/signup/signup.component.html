@@ -14,13 +14,15 @@
                   type="text"
                   class="form-control form-control-user"
                   placeholder="Enter Full Name"
-                />
+                  #n
+                  />
               </div>
               <div class="form-group">
                 <input
                   type="email"
                   class="form-control form-control-user"
                   placeholder="Enter Email Address..."
+                  #e
                 />
               </div>
               <div class="form-group">
@@ -28,9 +30,10 @@
                   type="password"
                   class="form-control form-control-user"
                   placeholder="Password"
+                  #p
                 />
               </div>
-              <a class="btn btn-primary btn-user btn-block mt-3"> Sign Up </a>
+              <a class="btn btn-primary btn-user btn-block mt-3" (click)="signup(n.value, e.value, p.value)"> Sign Up </a>
             </form>
             <hr />
             <div class="text-center">

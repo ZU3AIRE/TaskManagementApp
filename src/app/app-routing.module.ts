@@ -7,10 +7,7 @@ import { DeveloperComponent } from './Dashboard/developer/developer.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LoginComponent
-  },
+ 
   {
     path: 'Login',
     component: LoginComponent
@@ -20,20 +17,9 @@ const routes: Routes = [
     component: SignupComponent
   },
   {
-    path: 'Home',
-    component: HomeComponent,
-    children: [
-      {
-        path: 'Tasks',
-        component: TaskComponent
-      },
-      {
-        path: 'Developers',
-        component: DeveloperComponent
-      }
-    ]
-  }
- 
+    path: '',
+    component: TaskComponent
+  } 
 ];
 
 @NgModule({
