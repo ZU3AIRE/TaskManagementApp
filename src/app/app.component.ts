@@ -16,6 +16,10 @@ export class AppComponent {
   // For capturing values from input controls
   @ViewChild('title') titleEl!: ElementRef;
   @ViewChild('description') descriptionEl!: ElementRef;
+  // For Edit
+  @ViewChild('title') editTitleEl!: ElementRef;
+  @ViewChild('description') editDescriptionEl!: ElementRef;
+  
 
   constructor(private http: HttpClient) {
     this.getAllTask();
@@ -41,6 +45,53 @@ export class AppComponent {
         }
       });
   }
+  Edit() {
+    debugger;
+    var title = this.editTitleEl.nativeElement.value;
+    var description = this.editDescriptionEl.nativeElement.value;
+    this.http
+      .post<any>(`${environment.apiEndpoint}/Task/EditTask/${task.taskId}`, {
+        title: title,
+        description: description,
+      })
+      .subscribe((res) => {
+        if (typeof res == 'boolean' && res == false) {
+          alert('task Not Updated');
+        } else {
+          this.editTitleEl.nativeElement.value = '';
+          this.editDescriptionEl.nativeElement.value = '';
+          this.getAllTask();
+          alert('Task Updated Succesfully');
+        }
+      });
+  }
+
+
+//  Edit() {
+//   const updatedTitle = prompt('Enter the updated title:', task.title);
+//   const updatedDescription = prompt('Enter the updated description:', task.description);
+
+//   if (updatedTitle && updatedDescription) {
+//     const updatedTask = {
+//       title: updatedTitle,
+//       description: updatedDescription,
+//     };
+
+//     this.http.post<any>(`${environment.apiEndpoint}/Task/EditTask/${task.taskId}`, updatedTask)
+//       .subscribe(
+//         () => {
+//           task.title = updatedTitle;
+//           task.description = updatedDescription;
+//           alert('Task updated successfully.');
+//         },
+//         (error) => {
+//           console.error('Error updating task:', error);
+//           alert('Error updating task. Please try again.');
+//         }
+//       );
+//   }
+// }
+
 
   getAllTask() {
     this.http
@@ -49,13 +100,26 @@ export class AppComponent {
         this.tasks = res;
       });
   }
-
-  Edit(task: any) {
-    alert('You are trying to edit: ' + task.title);
-  }
-
   Delete(task: any) {
-    alert('You are trying to delete: ' + task.title);
+    var confirmDelete = confirm('Are You Want to delete');
+    if (confirmDelete) {
+      this.http
+        .delete<any>(`${environment.apiEndpoint}/Task/Delete/${task.taskId}`)
+        .subscribe(
+          (res) => {
+            if (res) {
+              this.getAllTask();
+              //this.tasks = this.tasks.filter((x) => x.taskId != task.taskId);
+              alert('Task Deleted Succesfully');
+            } else {
+              alert('Error While Deleteing the Task');
+            }
+          },
+          (err) => {
+            console.error('error Deleting the task', err);
+          }
+        );
+    }
   }
 }
 
