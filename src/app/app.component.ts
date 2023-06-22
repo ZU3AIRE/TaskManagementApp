@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +11,13 @@ export class AppComponent {
   title = 'TaskManagementApp';
 
   // Array of tasks from db
-  tasks: any[] = [];
+  tasks: Task[] = [];
 
   // For capturing values from input controls
   @ViewChild('title') titleEl!: ElementRef;
   @ViewChild('description') descriptionEl!: ElementRef;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.getAllTask();
   }
 
@@ -24,25 +25,29 @@ export class AppComponent {
     var title = this.titleEl.nativeElement.value;
     var desc = this.descriptionEl.nativeElement.value;
 
-    alert(
-      'You are trying to add a new task having\n\nTitle: ' +
-        title +
-        '\nDescription: ' +
-        desc
-    );
+    this.http
+      .post<any>(`${environment.apiEndpoint}/Task/AddTask`, {
+        title: title,
+        description: desc,
+      })
+      .subscribe((res) => {
+        if (typeof res == 'boolean' && res == false) {
+          alert('Task not added!');
+        } else {
+          this.descriptionEl.nativeElement.value = '';
+          this.titleEl.nativeElement.value = '';
+          this.getAllTask();
+          alert('Task added successfully.');
+        }
+      });
   }
 
   getAllTask() {
-    // Write Code here for fetching the data from API
-    this.tasks.push({
-      title: 'Implement JWT',
-      description:
-        'Use Dotnet API for Token Generation and utilize the api from angular for authentication.',
-    });
-    this.tasks.push({
-      title: 'Integrate Database using Code First',
-      description: 'Use Entity Framework Core',
-    });
+    this.http
+      .get<Task[]>(`${environment.apiEndpoint}/Task/GetAll`)
+      .subscribe((res) => {
+        this.tasks = res;
+      });
   }
 
   Edit(task: any) {
@@ -52,4 +57,10 @@ export class AppComponent {
   Delete(task: any) {
     alert('You are trying to delete: ' + task.title);
   }
+}
+
+export interface Task {
+  taskId: number;
+  title: string;
+  description: string;
 }
