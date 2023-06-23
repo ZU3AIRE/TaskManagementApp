@@ -14,11 +14,7 @@
       <h4>Tasks in the database</h4>
     </div>
     <div class="col-2 pt-5 pb-2 offset-2">
-      <button
-        class="btn btn-dark w-100"
-        data-bs-toggle="modal"
-        data-bs-target="#AddModal"
-      >
+      <button class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#AddModal">
         Add
       </button>
     </div>
@@ -32,6 +28,8 @@
             <tr>
               <th>Title</th>
               <th>Description</th>
+              <th>Status</th>
+
               <th class="text-end"><span class="me-5">Actions</span></th>
             </tr>
           </thead>
@@ -41,15 +39,13 @@
             <tr *ngFor="let task of tasks">
               <td>{{ task.title }}</td>
               <td>{{ task.description }}</td>
+              <td>{{ task.description }}</td>
               <td class="text-end">
-                <button class="btn btn-sm btn-secondary" (click)="Edit(task)">
+                <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#EditModal" (click)="Edit(task)">
                   Edit
                 </button>
                 |
-                <button
-                  class="btn btn-sm btn-danger me-5"
-                  (click)="Delete(task)"
-                >
+                <button class="btn btn-sm btn-danger me-5" (click)="Delete(task)">
                   Delete
                 </button>
               </td>
@@ -58,30 +54,53 @@
         </table>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Add Modal Body -->
+    <!-- Add Modal Body -->
 
-<div class="modal fade" id="AddModal" tabindex="-1">
+    <div class="modal fade" id="AddModal" tabindex="-1">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Task</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <label>Title</label>
+            <input type="text" class="form-control" #title />
+            <p></p>
+            <label>Description</label>
+            <textarea class="form-control" #description></textarea>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-primary" (click)="addNewTask()" data-bs-dismiss="modal">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal Body -->
+<div class="modal fade" id="EditModal" tabindex="-1">
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add New Task</h5>
+        <h5 class="modal-title">Edit Task</h5>
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <label>Title</label>
-        <input type="text" class="form-control" #title />
+        <input type="text" class="form-control" #editedTitle />
         <p></p>
         <label>Description</label>
-        <textarea class="form-control" #description></textarea>
+        <textarea class="form-control" #editedDescription></textarea>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button
           class="btn btn-primary"
-          (click)="addNewTask()"
+          (click)="saveEditedTask()"
           data-bs-dismiss="modal"
         >
           Save
