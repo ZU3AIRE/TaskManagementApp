@@ -12,14 +12,14 @@ export class AppComponent {
 
   // Array of tasks from db
   tasks: Task[] = [];
+  TaskEdit: any;
 
   // For capturing values from input controls
   @ViewChild('title') titleEl!: ElementRef;
   @ViewChild('description') descriptionEl!: ElementRef;
   // For Edit
-  @ViewChild('title') editTitleEl!: ElementRef;
-  @ViewChild('description') editDescriptionEl!: ElementRef;
-  
+  @ViewChild('editTitle') editTitleEl!: ElementRef;
+  @ViewChild('editDescription') editDescriptionEl!: ElementRef;
 
   constructor(private http: HttpClient) {
     this.getAllTask();
@@ -50,7 +50,7 @@ export class AppComponent {
     var title = this.editTitleEl.nativeElement.value;
     var description = this.editDescriptionEl.nativeElement.value;
     this.http
-      .post<any>(`${environment.apiEndpoint}/Task/EditTask/${task.taskId}`, {
+      .post<any>(`${environment.apiEndpoint}/Task/EditTask/${this.TaskEdit}`, {
         title: title,
         description: description,
       })
@@ -66,32 +66,30 @@ export class AppComponent {
       });
   }
 
+  //  Edit() {
+  //   const updatedTitle = prompt('Enter the updated title:', task.title);
+  //   const updatedDescription = prompt('Enter the updated description:', task.description);
 
-//  Edit() {
-//   const updatedTitle = prompt('Enter the updated title:', task.title);
-//   const updatedDescription = prompt('Enter the updated description:', task.description);
+  //   if (updatedTitle && updatedDescription) {
+  //     const updatedTask = {
+  //       title: updatedTitle,
+  //       description: updatedDescription,
+  //     };
 
-//   if (updatedTitle && updatedDescription) {
-//     const updatedTask = {
-//       title: updatedTitle,
-//       description: updatedDescription,
-//     };
-
-//     this.http.post<any>(`${environment.apiEndpoint}/Task/EditTask/${task.taskId}`, updatedTask)
-//       .subscribe(
-//         () => {
-//           task.title = updatedTitle;
-//           task.description = updatedDescription;
-//           alert('Task updated successfully.');
-//         },
-//         (error) => {
-//           console.error('Error updating task:', error);
-//           alert('Error updating task. Please try again.');
-//         }
-//       );
-//   }
-// }
-
+  //     this.http.post<any>(`${environment.apiEndpoint}/Task/EditTask/${task.taskId}`, updatedTask)
+  //       .subscribe(
+  //         () => {
+  //           task.title = updatedTitle;
+  //           task.description = updatedDescription;
+  //           alert('Task updated successfully.');
+  //         },
+  //         (error) => {
+  //           console.error('Error updating task:', error);
+  //           alert('Error updating task. Please try again.');
+  //         }
+  //       );
+  //   }
+  // }
 
   getAllTask() {
     this.http
