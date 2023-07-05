@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environment/environment';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,18 +9,41 @@ import { environment } from 'src/environment/environment';
 export class AppComponent {
   title = 'TaskManagementApp';
 
+  // Add an array to store task statuses
+  taskStatuses: TaskStatus[] = [];
+  TaskEdit: any;
   // Array of tasks from db
   tasks: Task[] = [];
   editingTask: Task | null = null;
+
+  selectedStatusId: number | null = null;
+
+
 
   // For capturing values from input controls
   @ViewChild('title') titleEl!: ElementRef;
   @ViewChild('description') descriptionEl!: ElementRef;
   @ViewChild('editedTitle') editedTitleEl!: ElementRef;
   @ViewChild('editedDescription') editedDescriptionEl!: ElementRef;
+  @ViewChild('status') statusEl!: ElementRef;
+
 
   constructor(private http: HttpClient) {
     this.getAllTask();
+
+
+  }
+  TaskStatuses() {
+    this.http
+      .get<TaskStatus[]>(`${environment.apiEndpoint}/TaskStatus/GetAll`)
+      .subscribe((res) => {
+        this.taskStatuses = res;
+        console.log(this.taskStatuses);
+      },
+        (err) => {
+          console.error('Failed to fetch task statuses:', err);
+        }
+      );
   }
 
   addNewTask() {
@@ -32,7 +54,7 @@ export class AppComponent {
       .post<void>(`${environment.apiEndpoint}/Task/AddTask`, {
         title: title,
         description: desc,
-       
+
       })
       .subscribe(
         (res) => {
@@ -48,6 +70,7 @@ export class AppComponent {
   }
 
   getAllTask() {
+    this.TaskStatuses(); // Call TaskStatuses() to fetch the task statuses
     this.http
       .get<Task[]>(`${environment.apiEndpoint}/Task/GetAll`)
       .subscribe((res) => {
@@ -62,7 +85,8 @@ export class AppComponent {
     // Set the initial values in the edit modal
     this.editedTitleEl.nativeElement.value = task.title;
     this.editedDescriptionEl.nativeElement.value = task.description;
-
+    //var status = this.statusEl.nativeElement.value;
+    this.selectedStatusId = task.status.taskStatusID; // Set the initial selected status
 
   }
 
@@ -75,10 +99,16 @@ export class AppComponent {
       // Update the task with the edited values
       this.editingTask.title = editedTitle;
       this.editingTask.description = editedDescription;
+      this.editingTask.status = { taskStatusID: this.selectedStatusId }; // Update the status object
+      //debugger
 
       // Send the updated task to the API
       this.http
-        .post<void>(`${environment.apiEndpoint}/Task/EditTask`, this.editingTask)
+        .post<void>(`${environment.apiEndpoint}/Task/EditTask?id=${this.editingTask.taskId}`, {
+          title: this.editingTask.title,
+          description: this.editingTask.description,
+          status: this.statusEl.nativeElement.selectedOptions[0].innerText
+        })
         .subscribe(
           (res) => {
             this.getAllTask();
@@ -118,4 +148,10 @@ export interface Task {
   taskId: number;
   title: string;
   description: string;
+  status: any;
+
+}
+export interface TaskStatus {
+  taskStatusID: number;
+  status: string;
 }
