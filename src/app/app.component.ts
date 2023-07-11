@@ -10,12 +10,16 @@ export class AppComponent {
   title = 'TaskManagementApp';
 
   // Add an array to store task statuses
+  developer: Developer[] = [];
+  developers: Developer[] = [];
   taskStatuses: TaskStatus[] = [];
   TaskEdit: any;
+  selectedFile: File | null = null;
   // Array of tasks from db
   tasks: Task[] = [];
   editingTask: Task | null = null;
-
+  editingDeveloper: Developer | null = null;
+  selectedDeveloperId: number | null = null;
   selectedStatusId: number | null = null;
 
 
@@ -26,6 +30,7 @@ export class AppComponent {
   @ViewChild('editedTitle') editedTitleEl!: ElementRef;
   @ViewChild('editedDescription') editedDescriptionEl!: ElementRef;
   @ViewChild('status') statusEl!: ElementRef;
+  @ViewChild('developer') developerEl!: ElementRef;
 
 
   constructor(private http: HttpClient) {
@@ -45,6 +50,17 @@ export class AppComponent {
         }
       );
   }
+
+  getAllDeveloper() {
+
+    this.http
+      .get<Developer[]>(`${environment.apiEndpoint}/Developer/GetAll`)
+      .subscribe((res) => {
+        this.developers = res;
+        console.log(this.developers)
+      });
+  }
+
 
   addNewTask() {
     var title = this.titleEl.nativeElement.value;
@@ -71,6 +87,7 @@ export class AppComponent {
 
   getAllTask() {
     this.TaskStatuses(); // Call TaskStatuses() to fetch the task statuses
+    this.getAllDeveloper();
     this.http
       .get<Task[]>(`${environment.apiEndpoint}/Task/GetAll`)
       .subscribe((res) => {
@@ -78,15 +95,47 @@ export class AppComponent {
       });
   }
 
+
   Edit(task: Task) {
     // Set the task being edited
     this.editingTask = task;
+
 
     // Set the initial values in the edit modal
     this.editedTitleEl.nativeElement.value = task.title;
     this.editedDescriptionEl.nativeElement.value = task.description;
     //var status = this.statusEl.nativeElement.value;
+    //this.statusEl.nativeElement.value = task.status;
     this.selectedStatusId = task.status.taskStatusID; // Set the initial selected status
+    //this.selectedDeveloperId = task.developer.developerId;
+
+  }
+  saveDevelopers() {
+    debugger;
+
+    if (this.editingDeveloper) {
+
+      
+     this.editingDeveloper.developer = { developerId: this.selectedDeveloperId };
+
+
+
+      this.http
+        .post<void>(`${environment.apiEndpoint}/Developer/UpdateDeveloper/${this.editingDeveloper.developerId}`, {
+          developer: this.developerEl.nativeElement.selectedOptions[0].innerText
+
+        }).subscribe(
+          (res) => {
+            this.getAllDeveloper();
+            alert('Developer updated successfully!');
+          },
+          (err) => {
+            alert('An unknown error occurred while updating the Developer.');
+          }
+        )
+        this.editingDeveloper = null;
+
+    }
 
   }
 
@@ -140,6 +189,28 @@ export class AppComponent {
         }
       );
   }
+  onFileSelected(event: any) {
+    // Get the selected file from the event
+    this.selectedFile = event.target.files[0];
+  }
+
+  onUpload() {
+    if (this.selectedFile) {
+      // Create FormData object to send the file
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+
+      // Send the file to the backend API endpoint for upload
+      this.http
+        .post<any>(`${environment.apiEndpoint}/File/UploadFile/upload`,formData).subscribe(
+          (response) => {
+            console.log(response);
+            alert("File uploaded successfully")
+          },
+         
+        );
+        }
+      }
 }
 
 
@@ -149,9 +220,16 @@ export interface Task {
   title: string;
   description: string;
   status: any;
+  developer: any;
 
 }
 export interface TaskStatus {
   taskStatusID: number;
   status: string;
 }
+export interface Developer {
+  developerId: number;
+  name: string;
+  developer: any;
+
+}   

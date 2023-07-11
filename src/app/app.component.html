@@ -29,6 +29,7 @@
               <th>Title</th>
               <th>Description</th>
               <th>Status</th>
+              <th>Developer</th>
 
               <th class="text-end"><span class="me-5">Actions</span></th>
             </tr>
@@ -40,7 +41,13 @@
               <td>{{ task.title }}</td>
               <td>{{ task.description }}</td>
               <td>{{ task.status.status }}</td>
+              <td>{{ task.developer}}</td>
               <td class="text-end">
+                <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#AssignModal"
+                  (click)="Edit(task)">
+                  AssignTo
+                </button>
+                |
                 <button class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#EditModal"
                   (click)="Edit(task)">
                   Edit
@@ -98,7 +105,7 @@
             <textarea class="form-control" #editedDescription></textarea>
             <p></p>
             <label>Status</label>
-            <select class="form-control" #status name="status">
+            <select class="form-control" #status name="status" [(ngModel)]="selectedStatusId">
               <option *ngFor="let status of taskStatuses" [value]="status.taskStatusID">{{ status.status }}</option>
             </select>
           </div>
@@ -111,3 +118,31 @@
         </div>
       </div>
     </div>
+
+    <!-- AssignTo Modal Body -->
+    <div class="modal fade" id="AssignModal" tabindex="-1">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Select Developer</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <label>Developers</label>
+            <select class="form-control" #developer name="Dev">
+              <option *ngFor="let developer of developers" [value]="developer.developerId">{{ developer.name }}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-primary" (click)="saveDevelopers()" data-bs-dismiss="modal">
+              Assigned
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" (change)="onFileSelected($event)" accept=".jpg, .png, .pdf">
+<button (click)="onUpload()">Upload</button>
