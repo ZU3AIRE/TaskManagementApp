@@ -1,5 +1,5 @@
 import {
-  HttpClient,
+  HttpClient, 
   HttpEventType,
   HttpErrorResponse,
 } from '@angular/common/http';
@@ -13,17 +13,45 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class UploadComponent implements OnInit {
   progress!: number;
   message!: string;
+  fileUrl: string = '';
+
+  fileNames: any;
+
   @Output() public onUploadFinished = new EventEmitter();
 
   constructor(private http: HttpClient) {}
-  ngOnInit() {}
-  uploadFile = (files: FileList | null) => {
+
+
+  ngOnInit() {
+    this.getFileNames();
+    this.getAllImages();
+  }
+ 
+
+  uploadFile(files: FileList | null) {
     if (!files || files.length === 0) {
       return;
     }
-    let fileToUpload = <File>files[0];
-    var formData = new FormData();
+    let fileToUpload = files[0];
+    const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
+    formData.append('fileUrl', ''); 
+
+    this.upload(formData);
+  }
+
+  uploadFileFromUrl() {
+    if (!this.fileUrl) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('fileUrl', this.fileUrl);
+
+    this.upload(formData);
+  }
+
+  upload(formData: FormData) {
 
     this.http
       .post('https://localhost:7120/api/FileSaving/UploadImg', formData, {
@@ -32,16 +60,45 @@ export class UploadComponent implements OnInit {
       })
       .subscribe({
         next: (event) => {
-          if (event.type === HttpEventType.UploadProgress)
+          if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round(
               (100 * event.loaded) / (event.total || 1)
             );
-          else if (event.type === HttpEventType.Response) {
+          } else if (event.type === HttpEventType.Response) {
             this.message = 'Upload success.';
             this.onUploadFinished.emit(event.body);
+
+            setTimeout(() => {
+              this.message = '';
+            }, 3000);
           }
         },
-        error: (err: HttpErrorResponse) => console.log(err),
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        },
       });
-  };
+  }
+  getFileNames() {
+    this.http.get<string[]>('https://localhost:7120/api/FileSaving/GetFileNames')
+      .subscribe(
+        (response) => {
+          this.fileNames = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+  getAllImages() {
+    this.http.get('https://localhost:7120/api/FileSaving/GetAllImages').subscribe(
+      (response) => {
+        this.fileNames = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }
+
+
