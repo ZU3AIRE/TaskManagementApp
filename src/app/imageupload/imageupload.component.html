@@ -1,0 +1,65 @@
+<div class="container mt-5 mb-5">
+    <div class="row  ">
+        <div class="col-5 bg-gradient-secondary p-5 rounded">
+            <h4 class="text-white">Upload Image from PC</h4>
+            <form >
+              <!-- <img [src]="image" alt="" style="width:300px; height: 300px;"> -->
+              <input type="file" (change)="oninpchange($event)" class="form-control" #image accept="image/*">
+              <button type="submit" class="btn btn-primary m-2" (click)="uploadImage()" >Upload</button>
+          </form>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-5 bg-gradient-info p-5 rounded">
+          <h4 class="text-white">Upload Image Using URL</h4>
+          <form >
+            <!-- <img [src]="image" alt="" style="width:300px; height: 300px;"> -->
+            <input type="text" class="form-control" #imageUrl>
+            <button type="submit" class="btn btn-primary m-2" (click)="uploadImageUsingUrl(imageUrl.value)" >Upload</button>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<div class="container">
+  <h2>All Images</h2>
+  <div class="row">
+    <div class="col-12">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>Sr #</th>
+            <th>Name</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let image of gallery let i=index">
+            <td>{{ i+1 }}</td>
+            <td>{{ image.name }}</td>
+            <td class="text-end">
+              <button class="btn btn-danger" (click)="DeleteImage(image.imageFileId)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <!-- <div class="col-4 mt-2" *ngFor="let image of gallery let i=index">
+      <div class="card">
+        <img class="card-img-top" style="height: 350px;" src="https://localhost:7120/{{image.path}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{image.name}}</h5>
+          <button class="btn btn-danger" (click)="DeleteImage(image.imageFileId)">Delete</button>
+           <a href="https://localhost:7120/{{image.path}}" class="btn btn-info">Download</a> -->
+          <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <button class="btn btn-danger" style="margin-left: 80px;" (click)="Delete(i)">Delete</button>
+        </div>
+      </div>
+    </div> -->
+      
+    </div>
+</div>
+
+
+
+

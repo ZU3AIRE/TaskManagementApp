@@ -8,36 +8,39 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4">Join us!</h1>
             </div>
-            <form>
+            <form [formGroup]="signupform" (ngSubmit)="signup()">
               <div class="form-group">
                 <input
                   type="text"
                   class="form-control form-control-user"
                   placeholder="Enter Full Name"
-                  #n
+                  formControlName="name"
                   />
+                  <span class="error" *ngIf="name && name.invalid" >Name is required</span>
               </div>
               <div class="form-group">
                 <input
                   type="email"
                   class="form-control form-control-user"
                   placeholder="Enter Email Address..."
-                  #e
+                  formControlName="email"
                 />
+                <span class="error" *ngIf="email && email.invalid" >Email is required</span>
               </div>
               <div class="form-group">
                 <input
                   type="password"
                   class="form-control form-control-user"
                   placeholder="Password"
-                  #p
+                  formControlName="password"
                 />
+                <span class="error" *ngIf="password && password.invalid">Password is required</span>
               </div>
-              <a class="btn btn-primary btn-user btn-block mt-3" (click)="signup(n.value, e.value, p.value)"> Sign Up </a>
+              <button type="submit" class="btn btn-primary btn-user btn-block mt-3"> Sign Up </button>
             </form>
             <hr />
             <div class="text-center">
-              Alreay have an account? <a class="small" routerLink="/Login">Login</a>
+              Alreay have an account? <a class="small" routerLink="/login">Login</a>
             </div>
           </div>
         </div>

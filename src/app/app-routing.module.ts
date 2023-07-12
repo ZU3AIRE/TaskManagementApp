@@ -5,21 +5,31 @@ import { SignupComponent } from './Auth/signup/signup.component';
 import { TaskComponent } from './Dashboard/task/task.component';
 import { DeveloperComponent } from './Dashboard/developer/developer.component';
 import { HomeComponent } from './home/home.component';
+import { SingleTaskComponent } from './single-task/single-task.component';
+import { ImageuploadComponent } from './imageupload/imageupload.component';
 
 const routes: Routes = [
  
   {
-    path: 'Login',
-    component: LoginComponent
+    path:'login',
+    component:LoginComponent
   },
   {
-    path: 'Signup',
+    path: 'signup',
     component: SignupComponent
   },
   {
-    path: '',
+    path:'task' ,
     component: TaskComponent
-  } 
+  },
+  {
+    path:'single',
+    component:SingleTaskComponent
+  },
+  {
+    path:'upload',
+    component:ImageuploadComponent
+  }
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
 <div id="wrapper">
     <!-- Sidebar -->
     <ul
-      class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+      class="navbar-nav bg-dark sidebar sidebar-dark accordion"
       id="accordionSidebar"
     >
       <!-- Sidebar - Brand -->
@@ -9,8 +9,8 @@
         class="sidebar-brand d-flex align-items-center justify-content-center"
         routerLink=""
       >
-        <img src="./../assets/logo.png" height="80px" style="margin-left:80px"/>
-        <!-- <div class="sidebar-brand-text mx-3">T M S</div> -->
+         <img src="./../assets/logo.png" height="80px" style="margin-left:80px"/>
+         <!-- <div class="sidebar-brand-text mx-3">T M S</div>  -->
       </a>
   
       <!-- Divider -->
@@ -33,19 +33,41 @@
       <div class="sidebar-heading">Dashboard</div>
   
       <!-- Nav Item -->
+       <li class="nav-item active">
+        <a class="nav-link" routerLink="">Home</a>
+      </li>
       <li class="nav-item active">
-        <a class="nav-link" routerLink="Tasks">Tasks</a>
+        <a class="nav-link" routerLink="task">Tasks</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="single">Single Task</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="upload">Uploads</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" routerLink="Developers">Developers</a>
-      </li>
+      </li> 
     </ul>
   
-    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex justify-content-end">
       <div id="content">
         <nav
-          class="navbar navbar-expand navbar-light bg-gradient-primary  topbar mb-4 static-top shadow"
-        ></nav>
+          class="navbar navbar-expand navbar-dark bg-dark  topbar mb-4 static-top shadow"
+        >
+        <div class="collapse navbar-collapse d-flex justify-content-end align-items-center" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                  <button class="nav-link btn btn-primary" routerLink="login">Login</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link btn btn-primary" routerLink="signup">Signup</button>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </nav>
         <router-outlet></router-outlet>
       </div>
     </div>

@@ -1,0 +1,33 @@
+<div class="container m-5">
+    <div class="row">
+        <div class="col-6 m-auto d-flex">
+            <input class="d-block form-control m-1" type="text" name="" id="" #id style="width:70%">
+
+            <button class="btn btn-primary"  (click)="getDataById(id.value)">Get Task</button>
+        </div>
+        
+    </div>
+    <div class="row m-5">
+        <div class="col-12">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let task of tasks let i=index">
+                  <tr >
+                    <td scope="row">{{task.taskId}}</td>
+                    <td>{{task.title}}</td>
+                    <td>{{task.description}}</td>
+                    <td>{{task.status.status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+

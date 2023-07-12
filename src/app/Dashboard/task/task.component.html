@@ -1,57 +1,232 @@
 <div class="container pt-3">
-    <div class="row justify-content-end">
-        <div class="col-2 text-end">
-            <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal">Add Task</button>
-        </div>
+  <div class="row justify-content-end">
+    <div class="col-2 text-end">
+      <button
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#addTaskModel"
+      >
+        Add Task
+      </button>
     </div>
-    <hr>
+  </div>
+  </div>
+  <hr />
+  <div class="container-fluid">
     <div class="row gap-2">
-        <div class="col-4" *ngFor="let task of tasks">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3>{{ task.title }}</h3>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {{ task.description }}
-                </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col text-end">
-                            <button class="btn btn-danger">Delete</button> |
-                            <button class="btn btn-info" (click)="SetEditEntity(task.taskId)" >Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div class="col-12">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Assign Developer</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of tasks; let i = index">
+              <td>{{ task.taskId }}</td>
+              <td>{{ task.title }}</td>
+              <td>{{ task.description }}</td>
+              <td>{{ task.status.status }}</td>
+              <td></td>
+              <td class="text-end">
+                <button class="btn btn-primary"  data-bs-toggle="modal"
+                data-bs-target="#assignDataModel">
+                  Assign to
+                </button>|
+                <button
+                  class="btn btn-info"
+                  (click)="SetEditEntity(task)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editDataModel"
+                >
+                  Edit</button
+                >|
+                <button class="btn btn-danger" (click)="DeleteTask(task.taskId)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</div>
+  </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!--Add Data Modal -->
+  <div
+    class="modal fade"
+    id="addTaskModel"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
-            <div class="row gap-2">
-                <div class="col-12">
-                    <input type="text"  class="form-control" placeholder="Title..." #t>
-                </div>
-                <div class="col-12">
-                    <textarea type="text" class="form-control"  placeholder="Description..." #d></textarea>
-                </div>
+          <div class="row gap-2">
+            <div class="col-12">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Title..."
+                #t
+              />
             </div>
+            <div class="col-12">
+              <textarea
+                type="text"
+                class="form-control"
+                placeholder="Description..."
+                #d
+              ></textarea>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" (click)="AddTask(t, d)">Add</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="AddTask(t, d)">
+            Add
+          </button>
         </div>
       </div>
     </div>
   </div>
+
+  <!--Update Data Modal -->
+  <div
+    class="modal fade"
+    id="editDataModel"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Update Data</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row gap-2">
+            <div class="col-12">
+              <label for="">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Title new..."
+                #editedTitle
+              />
+            </div>
+            <div class="col-12">
+              <label for="">Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                placeholder="Description..."
+                #editedDescription
+              ></textarea>
+            </div>
+            <div class="col-12">
+              <label for="">Status</label>
+              <select class="form-control" #status name="status" [(ngModel)]="selectedStatusId">
+                <option
+                  *ngFor="let status of taskStatus"
+                  [value]="status.taskStatusID"
+                >
+                  {{ status.status }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="UpdateTask()">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Assign to Data Modal -->
+  <div
+    class="modal fade"
+    id="assignDataModel"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Assign to</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row gap-2">
+            <div class="col-12">
+              <label for="">Developer</label>
+              <select class="form-control" #status name="status">
+                <option
+                  *ngFor="let developer of developers"
+                  [value]="developer.developerId"
+                >
+                  {{ developer.name }}
+                </option>
+              </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="AssignTo()">
+            Assign to
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
