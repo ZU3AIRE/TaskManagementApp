@@ -1,1 +1,37 @@
-<p>files works!</p>
+
+<input type="file" (change)="onFileSelected($event)" accept=".jpg, .png, .pdf">
+<br>
+<hr>
+<!-- <input type="url" placeholder="Enter Url" (change)="onFileSelected($event)" accept=".jpg, .png, .pdf"> -->
+<input type="url" class="form-control" #urlInput>
+
+<br>
+<hr>
+<button (click)="onUpload()">Upload</button>
+
+
+<br><br>
+<hr><br><br>
+
+<!--File Table  -->
+<div class="col-12">
+  <div class="table-responsive">
+    <table class="table table-dark table-striped">
+      <!-- Header -->
+      <thead>
+        <tr>
+          <th>Links</th>
+        </tr>
+      </thead>
+
+      <!-- Body -->
+      <tbody>
+        <tr *ngFor="let fff of files">
+          <td>{{ fff.filePath }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<router-outlet></router-outlet>
+
+</div>
