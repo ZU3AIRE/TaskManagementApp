@@ -55,11 +55,13 @@
     <thead>
       <tr>
         <th>File Names</th>
+        <th>File Path</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let fileName of fileNames">
-        <td>{{ fileName }}</td>
+        <td>{{ fileName.fileName }}</td>
+        <td>{{ fileName.path }}</td>
       </tr>
     </tbody>
   </table>

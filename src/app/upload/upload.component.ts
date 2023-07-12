@@ -15,16 +15,16 @@ export class UploadComponent implements OnInit {
   message!: string;
   fileUrl: string = '';
 
- // fileNames: any;
- fileNames: string[] = [];
+ fileNames: any;
+//  fileNames: string[] = [];
   @Output() public onUploadFinished = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
 
   ngOnInit() {
-    this.getFileNames();
-    // this.getAllImages();
+    // this.getFileNames();   
+    this.getAllImages();
   }
  
 
@@ -78,27 +78,27 @@ export class UploadComponent implements OnInit {
         },
       });
   }
-  getFileNames() {
-    this.http.get<string[]>('https://localhost:7120/api/FileSaving/GetFileNames')
-      .subscribe(
-        (response) => {
-          this.fileNames = response;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
-  // getAllImages() {
-  //   this.http.get('https://localhost:7120/api/FileSaving/GetAllImages').subscribe(
-  //     (response) => {
-  //       this.fileNames = response;
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
+  // getFileNames() {
+  //   this.http.get<string[]>('https://localhost:7120/api/FileSaving/GetFileNames')
+  //     .subscribe(
+  //       (response) => {
+  //         this.fileNames = response;
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
   // }
+  getAllImages() {
+    this.http.get('https://localhost:7120/api/FileSaving/GetAllImages').subscribe(
+      (response) => {
+        this.fileNames = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }
 
 
