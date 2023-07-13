@@ -1,5 +1,5 @@
 import {
-  HttpClient, 
+  HttpClient,
   HttpEventType,
   HttpErrorResponse,
 } from '@angular/common/http';
@@ -15,36 +15,44 @@ export class UploadComponent implements OnInit {
   message!: string;
   fileUrl: string = '';
 
- fileNames: any;
-//  fileNames: string[] = [];
+  fileNames: any;
   @Output() public onUploadFinished = new EventEmitter();
 
   constructor(private http: HttpClient) {}
 
-
   ngOnInit() {
-    // this.getFileNames();   
     this.getAllImages();
   }
- 
 
-  uploadFile(files: FileList | null) {
-    if (!files || files.length === 0) {
+  uploadFileBySystem(files: any) {
+    if (files.length === 0) {
       return;
     }
-    let fileToUpload = files[0];
+    const fileToUpload = files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('fileUrl', ''); 
 
-    this.upload(formData);
+    this.http
+      .post('https://localhost:7120/api/FileSaving/UploadBySystem', formData)
+      .subscribe({
+        next: (response: any) => {
+          this.message = 'Upload success.';
+          this.onUploadFinished.emit(response.dbPath);
+          setTimeout(() => {
+            this.message = '';
+          }, 3000);
+          this.getAllImages();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        },
+      });
   }
 
   uploadFileFromUrl() {
     if (!this.fileUrl) {
       return;
     }
-
     const formData = new FormData();
     formData.append('fileUrl', this.fileUrl);
 
@@ -52,7 +60,6 @@ export class UploadComponent implements OnInit {
   }
 
   upload(formData: FormData) {
-
     this.http
       .post('https://localhost:7120/api/FileSaving/UploadImg', formData, {
         reportProgress: true,
@@ -67,6 +74,7 @@ export class UploadComponent implements OnInit {
           } else if (event.type === HttpEventType.Response) {
             this.message = 'Upload success.';
             this.onUploadFinished.emit(event.body);
+            this.getAllImages();
 
             setTimeout(() => {
               this.message = '';
@@ -78,27 +86,17 @@ export class UploadComponent implements OnInit {
         },
       });
   }
-  // getFileNames() {
-  //   this.http.get<string[]>('https://localhost:7120/api/FileSaving/GetFileNames')
-  //     .subscribe(
-  //       (response) => {
-  //         this.fileNames = response;
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  // }
+
   getAllImages() {
-    this.http.get('https://localhost:7120/api/FileSaving/GetAllImages').subscribe(
-      (response) => {
-        this.fileNames = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.http
+      .get('https://localhost:7120/api/FileSaving/GetAllImages')
+      .subscribe(
+        (response) => {
+          this.fileNames = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 }
-
-

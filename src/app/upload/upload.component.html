@@ -1,20 +1,17 @@
- <div class="row" style="margin-bottom: 15px">
+<div class="row" style="margin-bottom: 15px">
   <div class="col text-center btnDiv">
-    <input
-      type="file"
-      #file
-      placeholder="Choose file"
-      (change)="uploadFile(file.files)"
-      style="display: none"
-    />
     <input
       type="text"
       [(ngModel)]="fileUrl"
       placeholder="Enter file URL"
       style="margin-right: 10px"
     />
-    <button type="button" class="btn btn-success sbtn" (click)="uploadFileFromUrl()">
-      Upload File from URL
+    <button
+      type="button"
+      class="btn btn-danger sbtn"
+      (click)="uploadFileFromUrl()"
+    >
+      Upload File From URL
     </button>
     <span class="upload" *ngIf="progress > 0"> {{ progress }}% </span>
     <span class="upload" *ngIf="message">
@@ -23,34 +20,27 @@
   </div>
 </div>
 
-<!-- <div class="row" style="margin-bottom: 15px">
-  <div class="col text-center btnDiv">
-    <button type="button" class="btn btn-success sbtn" (click)="getAllImages()">
-      Show All Images
+<div class="row" style="margin-bottom: 15px">
+  <div class="col-md-3">
+    <input
+      type="file"
+      #file
+      placeholder="Choose file"
+      (change)="uploadFileBySystem(file.files)"
+      style="display: none"
+    />
+    <button type="button" class="btn btn-danger" (click)="file.click()">
+      Choose File From System
     </button>
   </div>
+  <div class="col-md-4">
+    <span class="upload" *ngIf="progress > 0"> {{ progress }}% </span>
+    <span class="upload" *ngIf="message">
+      {{ message }}
+    </span>
+  </div>
 </div>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Sr #</th>
-      <th>File Names</th>
-      <th>Images</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let fileName of fileNames let i=index">
-      <td>{{i+1}}</td>
-      <td>{{ fileName.fileName }}</td>
-      <td>
-        <img src="https://localhost:7120/{{fileName.path}}" alt="Path change hai iska">
-      </td>
-      </tr>
-  </tbody>
-</table> -->
 <div class="container-fluid">
-
   <table class="table table-dark table-striped">
     <thead>
       <tr>
