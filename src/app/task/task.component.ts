@@ -5,10 +5,13 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css']
+  styleUrls: ['./task.component.css'],
 })
 export class TaskComponent {
   title = 'TaskManagementApp';
+
+  searchTitle: string = '';
+  filteredTasks: Task[] = [];
 
   // Array of tasks from db
   taskStatuses: any[] = [];
@@ -91,8 +94,19 @@ export class TaskComponent {
       .get<any[]>(`${environment.apiEndpoint}/Task/GetAll`)
       .subscribe((res) => {
         this.tasks = res;
+        this.searchTasks();
       });
   }
+  searchTasks() {
+    if (this.searchTitle.trim() === '') {
+      this.filteredTasks = this.tasks;
+    } else {
+      this.filteredTasks = this.tasks.filter((task) =>
+        task.title.toLowerCase().includes(this.searchTitle.toLowerCase())
+      );
+    }
+  }
+
   TaskStatuses() {
     this.http
       .get<any[]>(`${environment.apiEndpoint}/TaskStatus/GetAll`)
@@ -133,4 +147,3 @@ export interface TaskStatus {
   taskStatusID: number;
   status: string;
 }
-

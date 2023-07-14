@@ -4,19 +4,16 @@ import { UploadComponent } from './upload/upload.component';
 import { AppComponent } from './app.component';
 import { TaskComponent } from './task/task.component';
 
-const routes: Routes = [ {
-  path:'upload',
-  component:UploadComponent,
-
-},
-{
-  path:'task',
-  component:TaskComponent,
-
-}
-]
-
-
+const routes: Routes = [
+  {
+    path: 'upload',
+    component: UploadComponent,
+  },
+  {
+    path: '',
+    component: TaskComponent,
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

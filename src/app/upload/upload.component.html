@@ -1,58 +1,90 @@
-<div class="row" style="margin-bottom: 15px">
-  <div class="col text-center btnDiv">
-    <input
-      type="text"
-      [(ngModel)]="fileUrl"
-      placeholder="Enter file URL"
-      style="margin-right: 10px"
-    />
-    <button
-      type="button"
-      class="btn btn-danger sbtn"
-      (click)="uploadFileFromUrl()"
-    >
-      Upload File From URL
-    </button>
-    <span class="upload" *ngIf="progress > 0"> {{ progress }}% </span>
-    <span class="upload" *ngIf="message">
-      {{ message }}
-    </span>
+<div class="row container-fluid">
+  <div class="col-sm-5">
+    <div class="card border border-3 border-black text-light">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-9">
+            <input
+              type="text"
+              class="form-control bg-light text-dark border-3 border-black text-light"
+              [(ngModel)]="fileUrl"
+              placeholder="Enter file URL"
+              style="margin-right: 10px"
+            />
+            <button
+              type="button"
+              class="btn btn-dark sbtn mt-1"
+              (click)="uploadFileFromUrl()"
+            >
+              Upload File From URL
+            </button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <span class="upload" *ngIf="progress > 0">{{ progress }}%</span>
+            <span class="upload" *ngIf="message">{{ message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 pt-lg-5">
+    <b>Task Management System</b>
+  </div>
+  <div class="col-sm-5">
+    <div class="card border border-3 border-black text-light">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-9">
+            <input
+              class="form-control border-3 border-black text-light"
+              type="text"
+              placeholder="Choose File From your System"
+              readonly
+            />
+            <input
+              type="file"
+              #file
+              placeholder="Choose file"
+              (change)="uploadFileBySystem(file.files)"
+              style="display: none"
+            />
+            <button
+              type="button"
+              class="btn btn-dark mt-1"
+              (click)="file.click()"
+            >
+              Choose File
+            </button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <!-- <span class="upload" *ngIf="progress > 0">{{ progress }}%</span>
+            <span class="upload" *ngIf="message">{{ message }}</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="row" style="margin-bottom: 15px">
-  <div class="col-md-3">
-    <input
-      type="file"
-      #file
-      placeholder="Choose file"
-      (change)="uploadFileBySystem(file.files)"
-      style="display: none"
-    />
-    <button type="button" class="btn btn-danger" (click)="file.click()">
-      Choose File From System
-    </button>
-  </div>
-  <div class="col-md-4">
-    <span class="upload" *ngIf="progress > 0"> {{ progress }}% </span>
-    <span class="upload" *ngIf="message">
-      {{ message }}
-    </span>
-  </div>
-</div>
+<hr />
 <div class="container-fluid">
-  <table class="table table-dark table-striped">
-    <thead>
-      <tr>
-        <th>File Names</th>
-        <th>File Path</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let fileName of fileNames">
-        <td>{{ fileName.fileName }}</td>
-        <td>{{ fileName.path }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div style="max-height: 400px; overflow-y: auto">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>File Names</th>
+          <th>File Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fileName of fileNames">
+          <td>{{ fileName.fileName }}</td>
+          <td>{{ fileName.path }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
