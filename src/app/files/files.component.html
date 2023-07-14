@@ -1,17 +1,32 @@
-
-<input type="file" (change)="onFileSelected($event)" accept=".jpg, .png, .pdf">
 <br>
-<hr>
-<!-- <input type="url" placeholder="Enter Url" (change)="onFileSelected($event)" accept=".jpg, .png, .pdf"> -->
-<input type="url" class="form-control" placeholder="Enter Url" #urlInput>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card text-white bg-secondary mb-3">
+      <div class="card-body">
+        <p class="card-text">Select File </p>
+        <input class="form-control" type="file" (change)="onFileSelected($event)" accept=".jpg, .png, .pdf">
+        <br>
+        <button class="btn btn-primary" (click)="onUpload()">Upload</button>
+        <hr>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card text-white bg-secondary mb-3">
+      <div class="card-body">
+        <p class="card-text">Enter URL Here</p>
+
+        <input type="url" class="form-control" placeholder="Enter Url" #urlInput>
+        <br>
+        <button class="btn btn-primary" (click)="saveUrl()">Save URL</button>
+        <hr>
+      </div>
+    </div>
+  </div>
+</div>
 
 <br>
-<hr>
-<button (click)="onUpload()">Upload</button>
 
-
-<br><br>
-<hr><br><br>
 
 <!--File Table  -->
 <div class="col-12">
@@ -32,6 +47,6 @@
       </tbody>
     </table>
   </div>
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
 </div>
